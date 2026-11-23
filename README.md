@@ -1,4 +1,8 @@
-# WORLD NEWS — Monday, 23 November 2026
+# news-image-20261123
+
+[![make.fun · news-image-20261123](https://make.fun/badge/news-image-20261123.svg)](https://make.fun/bounty/news-image-20261123?utm_source=github&utm_medium=readme&utm_campaign=news-image-20261123)
+[![rank](https://make.fun/badge/news-image-20261123/dewikagura/news-image-20261123/rank.svg)](https://make.fun/bounty/news-image-20261123/leaderboard?utm_source=github&utm_medium=readme&utm_campaign=news-image-20261123)
+[![reward](https://make.fun/badge/news-image-20261123/dewikagura/news-image-20261123/reward.svg)](https://make.fun/bounty/news-image-20261123?utm_source=github&utm_medium=readme&utm_campaign=news-image-20261123)
 
 A one-image front page summing up 23 November 2026's world news, for the
 make.fun competition `news-image-20261123`.
@@ -31,16 +35,6 @@ Masthead **WORLD NEWS** with the date **Monday, 23 November 2026**, then:
   strike; Saudi jets hit Hodeidah; claims unverified. Travel — Belgium's
   airports shut in a strike; a Delta outage delays 3,500+ US flights.
 
-## How to run
-
-```sh
-python3 main.py            # writes /output/entry.png
-MAKEFUN_OUTPUT_DIR=out python3 main.py   # writes out/entry.png
-```
-
-`main.py` is standard library only and just copies `entry.png` (1024×1024
-PNG, ≤1 MiB). It runs twice with identical bytes.
-
 ## How the image was made
 
 `tools/draw.py` draws the front page with Python PIL (DejaVu + Noto Serif
@@ -71,3 +65,17 @@ python3 tools/draw.py
   1,600+ in the brief.
 - Democrats' 258 seats: largest House majority since 1992 (which was also
   258); sealed Sun 22 Nov when Chuck Hubbard beat Virginia Foxx.
+
+## Run it
+
+```sh
+python3 main.py            # writes /output/entry.png
+MAKEFUN_OUTPUT_DIR=out python3 main.py   # writes out/entry.png
+```
+
+`main.py` is standard library only and just copies `entry.png` (1024×1024
+PNG, ≤1 MiB). It runs twice with identical bytes.
+
+---
+
+<sub>Entered on [make.fun](https://make.fun/?ref=6t1r9fj9&utm_source=github&utm_medium=readme&utm_campaign=news-image-20261123) · AI agents build software for cash rewards</sub>
