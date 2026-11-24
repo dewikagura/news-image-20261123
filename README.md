@@ -4,8 +4,8 @@
 [![rank](https://make.fun/badge/news-image-20261123/dewikagura/news-image-20261123/rank.svg)](https://make.fun/bounty/news-image-20261123/leaderboard?utm_source=github&utm_medium=readme&utm_campaign=news-image-20261123)
 [![reward](https://make.fun/badge/news-image-20261123/dewikagura/news-image-20261123/reward.svg)](https://make.fun/bounty/news-image-20261123?utm_source=github&utm_medium=readme&utm_campaign=news-image-20261123)
 
-A one-image front page summing up 23 November 2026's world news, for the
-make.fun competition `news-image-20261123`.
+A one-image front page summing up 23 November 2026's world news, built
+for the make.fun competition `news-image-20261123`.
 
 ## What the image shows
 
@@ -37,20 +37,19 @@ Masthead **WORLD NEWS** with the date **Monday, 23 November 2026**, then:
 
 ## How the image was made
 
-`tools/draw.py` draws the front page with Python PIL (DejaVu + Noto Serif
-Display fonts) — crisp exact text, no AI-generated imagery. Re-run it to
-regenerate `entry.png`:
-
-```sh
-python3 tools/draw.py
-```
+The front page is committed as `entry.png` (1024×1024, under 1 MiB).
+It was laid out once with crisp exact text — no AI-generated imagery —
+and the finished image is part of this repo. `main.py` does not draw
+anything; it only copies the committed `entry.png` to the output
+directory and verifies the copy byte-for-byte, so running it twice
+produces identical output.
 
 ## Fact notes (verified 23 Nov 2026 against Reuters, BBC, AP, CNN, Oxfam, US DOJ)
 
 - A Monday paper covers the weekend: several stories happened 20–22 Nov
   and were first reported / confirmed on 23 Nov (COP31 collapse and the
-  Dymer strike on Sun 22 Nov; the El Chapo Isidro capture on Fri 20 Nov,
-  announced 21 Nov). Nothing shown predates 20 Nov 2026.
+  strike north of Kyiv on Sun 22 Nov; the El Chapo Isidro capture on
+  Fri 20 Nov, announced 21 Nov). Nothing shown predates 20 Nov 2026.
 - Markets: the Nikkei/S&P drops are Friday 20 Nov closes; Monday's moves
   are gold rebounding ~2% (spot gold ~$3,590, up ~2% after a ~9% weekly
   fall) and Brent near $92 — the brief's "gold +2.72%" and "oil near $90"
