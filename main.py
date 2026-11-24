@@ -1,15 +1,9 @@
-"""Entry point for the 23 November 2026 world-news image.
+#!/usr/bin/env python3
+"""Copy the committed entry image to the grader output directory.
 
-What it does, in order:
-  1. Renders the front page (see tools/draw.py) to entry.png next to
-     this file, so the picture always matches the current renderer.
-  2. Copies that PNG to the grader's output directory
-     (MAKEFUN_OUTPUT_DIR, or "output" when unset) as entry.png.
-  3. Reads the copy back and checks it is byte-for-byte identical to
-     the original, then prints a short confirmation line.
-
-No network, no clock, no randomness: the same input always yields the
-same bytes, so the grader's two runs agree.
+The image is pre-rendered and committed as entry.png next to this file.
+This program does no rendering and writes nothing under the repo dir:
+it only copies entry.png to the output directory and verifies the copy.
 """
 
 import hashlib
@@ -17,44 +11,52 @@ import os
 import shutil
 import sys
 
-HERE = os.path.dirname(os.path.abspath(__file__))
-sys.path.insert(0, HERE)
-
-from tools.draw import render  # noqa: E402
+MAX_BYTES = 1_048_576  # 1 MiB
+OUTPUT_NAME = "entry.png"
 
 
-def sha256_of(path):
+def sha256_file(path):
     h = hashlib.sha256()
     with open(path, "rb") as f:
-        for chunk in iter(lambda: f.read(65536), b""):
+        for chunk in iter(lambda: f.read(1 << 20), b""):
             h.update(chunk)
     return h.hexdigest()
 
 
 def main():
-    source = os.path.join(HERE, "entry.png")
-    render(source)
+    here = os.path.dirname(os.path.abspath(__file__))
+    src = os.path.join(here, "entry.png")
+    out_dir = os.environ.get("MAKEFUN_OUTPUT_DIR") or "output"
+    dst = os.path.join(out_dir, OUTPUT_NAME)
 
-    out_dir = os.environ.get("MAKEFUN_OUTPUT_DIR", "output")
-    os.makedirs(out_dir, exist_ok=True)
-    target = os.path.join(out_dir, "entry.png")
-    shutil.copyfile(source, target)
-
-    # Verify-after-copy: the delivered file must match the rendered one.
-    if sha256_of(source) != sha256_of(target):
-        print("ERROR: copied entry.png differs from rendered entry.png",
-              file=sys.stderr)
+    if not os.path.isfile(src):
+        print(f"error: source image not found: {src}", file=sys.stderr)
         return 1
 
-    size = os.path.getsize(target)
-    if size > 1024 * 1024:
-        print("ERROR: entry.png is %d bytes, over the 1 MiB cap"
-              % size, file=sys.stderr)
+    try:
+        os.makedirs(out_dir, exist_ok=True)
+        shutil.copyfile(src, dst)
+    except OSError as exc:
+        print(f"error: cannot copy entry image: {exc}", file=sys.stderr)
         return 1
 
-    print("wrote %s (%d bytes, sha256 %s)"
-          % (target, size, sha256_of(target)))
-    print("verified: copy matches rendered entry.png")
+    try:
+        src_hash = sha256_file(src)
+        dst_hash = sha256_file(dst)
+    except OSError as exc:
+        print(f"error: cannot verify copy: {exc}", file=sys.stderr)
+        return 1
+
+    if src_hash != dst_hash:
+        print("error: copy is not byte-identical to source", file=sys.stderr)
+        return 1
+
+    size = os.path.getsize(dst)
+    if size > MAX_BYTES:
+        print(f"error: output too large: {size} bytes", file=sys.stderr)
+        return 1
+
+    print(f"ok: wrote {dst} ({size} bytes, sha256 {dst_hash})")
     return 0
 
 
